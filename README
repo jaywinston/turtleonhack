@@ -156,3 +156,5 @@ BUGS
       an index-expression whose index expression is a parenthesized
       arithmetic expression.
     (A workaround for both is to wrap the problem-expression in a block.)
+    - Wrapping a commaed format string in a block confuses the formatter.
+      A workaround is to leave a space between the comma and the right bracket.
