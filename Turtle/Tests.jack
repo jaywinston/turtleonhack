@@ -8,6 +8,9 @@ class Main {
 
     function void main() {
         do testrunner.run();  // see ./runtests
+        do Screen.clearScreen();
+        do Main.print(0,0,"done.");
+        while(true){}
         return;
     }
 
@@ -33,14 +36,15 @@ class Main {
             do Main.print(22,0, "Memory leak detected: ");
             do Output.printInt(n);
             if (n = 1) {
-                do Main.print(-1,0," object. Press any key to continue");
+                do Main.print(-1,0," object.");
             } else {
-                do Main.print(-1,0," objects. Press any key to continue");
+                do Main.print(-1,0," objects.");
             }
+            do Main.print(-1,0," Press any key to dump core.");
             do DB.pause();
             do Screen.clearScreen();
             do Output.moveCursor(0,0);
-            do DB.mv();
+            do DB.mv(n);
             do Main.fail(null);
         }
 
@@ -121,6 +125,9 @@ class Main {
         }
 
         do Vector.kill();
+
+        do Main.print(1, 0, "press any key to continue");
+        do DB.pause();
 
         return;
     }
