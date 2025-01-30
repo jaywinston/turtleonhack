@@ -1,0 +1,130 @@
+class Test {
+
+
+    /**
+     *  pause execution before the emulator stops so as not to lose state
+     */
+    function void end() {
+        do Screen.clearScreen();
+        do Test.print(0,0,"done.");
+        while(true){}
+        return;
+    }
+
+
+    function void fail(String f) {
+        if (~(f = null)) {
+            do Output.printString(f);
+            do f.dispose();
+        }
+        while(true){}
+        return;
+    }
+
+
+    /**
+     * memory check
+     */
+    function void mk() {
+        var int n;
+
+        let n = DB.mc();
+        if (~(n = 0)) {
+            do Test.print(22,0, "Memory leak detected: ");
+            do Output.printInt(n);
+            if (n = 1) {
+                do Test.print(-1,0," object.");
+            } else {
+                do Test.print(-1,0," objects.");
+            }
+            do Test.print(-1,0," Press any key to dump core.");
+            do DB.pause();
+            do Screen.clearScreen();
+            do Output.moveCursor(0,0);
+            do DB.mv(n);
+            do Test.fail(null);
+        }
+
+        return;
+    }
+
+
+    function void print(int r, int c, String s) {
+        if ( (r>-1) & (c>-1) ) {
+            do Output.moveCursor(r,c);
+        }
+        do Output.printString(s);
+        do s.dispose();
+        return;
+    }
+
+
+    // The Tests!
+
+
+    function void Vector_kill() {
+        do Screen.clearScreen();
+        do Test.print(0,0,"Testing Vector.kill()...");
+        do Vector.init();
+        do Vector.kill();
+        do Test.mk();
+        do Test.print(-1,0," done.");
+        return;
+    }
+
+
+    function void Vector_sinusoidals() {
+        var int i;
+        var Vector v;
+
+        do Screen.clearScreen();
+        do Test.print(0,0,"Testing Vector.sin() and Vector.cos()");
+        do Vector.init();
+
+        do Test.print((128+Vector.sin(0))/11, 1, "Sine:");
+        let i = 0;
+        while (i < 361) {
+            do Screen.drawPixel(76+i, 128+Vector.sin(i));
+            let i = i+1;
+        }
+
+        do Test.print((128+Vector.cos(0))/11, 1, "Cosine:");
+        let i = 0;
+        while (i < 361) {
+            do Screen.drawPixel(76+i, 128+Vector.cos(i));
+            let i = i+1;
+        }
+
+        do Vector.kill();
+
+        do Test.print(1, 0, "press any key to continue");
+        do DB.pause();
+
+        return;
+    }
+
+
+    function void Vector_new() {
+        var int i;
+        var Vector v;
+
+        do Screen.clearScreen();
+        do Vector.init();
+
+        do Test.print(0,0,"Testing Vector.New()");
+        let i = 0;
+        while (i < 361) {
+            let v = Vector.new(100,i);
+            do Screen.drawPixel(255+v.i(), 128+v.r());
+            do v.dispose();
+            let i = i+1;
+        }
+
+        do Vector.kill();
+
+        do Test.print(1, 0, "press any key to continue");
+        do DB.pause();
+
+        return;
+    }
+}

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+
+echo function Main.main 0
+  
+sed -n '/The Tests!/,$p' Test.jack | awk '
+  /function void [[:upper:]][[:alpha:]]*_/ {
+    sub(/\(\)/,"",$3);
+    print "call Test."$3" 0";
+    print "pop temp 0";
+    #print "call Test.mk 0";
+    #print "pop temp 0";
+  }
+'
+
+cat << .
+call Test.end 0
+pop temp 0
+push constant 0
+return
+function Main.stop 0
+push constant 0
+return
+.
